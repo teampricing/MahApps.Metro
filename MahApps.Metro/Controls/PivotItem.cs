@@ -3,24 +3,28 @@ using System.Windows.Controls;
 
 namespace MahApps.Metro.Controls
 {
-    public class PivotItem : ContentControl
+  public class PivotItem : ContentControl
+  {
+    public static readonly DependencyProperty HeaderProperty = DependencyProperty.Register("Header", typeof(string), typeof(PivotItem), new PropertyMetadata(default(string)));
+
+    public string Header
     {
-        public static readonly DependencyProperty HeaderProperty = DependencyProperty.Register("Header", typeof(string), typeof(PivotItem), new PropertyMetadata(default(string)));
-
-        public string Header
-        {
-            get { return (string)GetValue(HeaderProperty); }
-            set { SetValue(HeaderProperty, value); }
-        }
-
-        static PivotItem()
-        {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(PivotItem), new FrameworkPropertyMetadata(typeof(PivotItem)));
-        }
-
-        public PivotItem()
-        {
-            RequestBringIntoView += (s, e) => { e.Handled = true; };
-        }
+      get { return (string)GetValue(HeaderProperty); }
+      set { SetValue(HeaderProperty, value); }
     }
+
+    static PivotItem()
+    {
+      DefaultStyleKeyProperty.OverrideMetadata(typeof(PivotItem), new FrameworkPropertyMetadata(typeof(PivotItem)));
+    }
+
+    public PivotItem()
+    {
+      RequestBringIntoView += (s, e) => { e.Handled = true; };
+      AddHandler(ScrollViewer.ScrollChangedEvent, new ScrollChangedEventHandler((sender, args) =>
+      {
+        args.Handled = true;
+      }));
+    }
+  }
 }
